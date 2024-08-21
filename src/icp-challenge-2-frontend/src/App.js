@@ -1,9 +1,9 @@
-import { html, render } from 'lit-html';
-import { icp_challenge_2_backend } from 'declarations/icp-challenge-2-backend';
-import logo from './logo2.svg';
+import { html, render } from "lit-html";
+import { icp_challenge_2_backend } from "declarations/icp-challenge-2-backend";
+import logo from "./logo2.svg";
 
 class App {
-  greeting = '';
+  userInfo = "";
 
   constructor() {
     this.#render();
@@ -11,8 +11,10 @@ class App {
 
   #handleSubmit = async (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    this.greeting = await icp_challenge_2_backend.greet(name);
+    const username = document.getElementById("name").value;
+    this.userInfo = await icp_challenge_2_backend.get_github_user_info(
+      username
+    );
     this.#render();
   };
 
@@ -23,17 +25,19 @@ class App {
         <br />
         <br />
         <form action="#">
-          <label for="name">Enter your name: &nbsp;</label>
+          <label for="name">Enter GitHub username: &nbsp;</label>
           <input id="name" alt="Name" type="text" />
-          <button type="submit">Click Me!</button>
+          <button type="submit">Get User Info</button>
         </form>
-        <section id="greeting">${this.greeting}</section>
+        <section id="userInfo">
+          <pre>${this.userInfo}</pre>
+        </section>
       </main>
     `;
-    render(body, document.getElementById('root'));
+    render(body, document.getElementById("root"));
     document
-      .querySelector('form')
-      .addEventListener('submit', this.#handleSubmit);
+      .querySelector("form")
+      .addEventListener("submit", this.#handleSubmit);
   }
 }
 

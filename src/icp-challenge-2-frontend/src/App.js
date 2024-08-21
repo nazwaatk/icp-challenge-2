@@ -3,7 +3,7 @@ import { icp_challenge_2_backend } from "declarations/icp-challenge-2-backend";
 import logo from "./logo2.svg";
 
 class App {
-  userInfo = "";
+  airQualityInfo = "";
 
   constructor() {
     this.#render();
@@ -11,26 +11,24 @@ class App {
 
   #handleSubmit = async (e) => {
     e.preventDefault();
-    const username = document.getElementById("name").value;
-    this.userInfo = await icp_challenge_2_backend.get_github_user_info(
-      username
-    );
+    const city = document.getElementById("city").value;
+    this.airQualityInfo = await icp_challenge_2_backend.get_air_quality(city);
     this.#render();
   };
 
   #render() {
     let body = html`
       <main>
-        <img src="${logo}" alt="DFINITY logo" />
+        <img src="${logo}" alt="App logo" />
         <br />
         <br />
         <form action="#">
-          <label for="name">Enter GitHub username: &nbsp;</label>
-          <input id="name" alt="Name" type="text" />
-          <button type="submit">Get User Info</button>
+          <label for="city">Enter city name: &nbsp;</label>
+          <input id="city" alt="City" type="text" />
+          <button type="submit">Get Air Quality</button>
         </form>
-        <section id="userInfo">
-          <pre>${this.userInfo}</pre>
+        <section id="airQualityInfo">
+          <pre>${this.airQualityInfo}</pre>
         </section>
       </main>
     `;

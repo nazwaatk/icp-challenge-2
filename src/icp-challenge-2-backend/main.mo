@@ -27,17 +27,17 @@ actor {
       transformed;
   };
 
-  public func get_github_user_info(username: Text) : async Text {
+  public func get_air_quality(city: Text) : async Text {
 
     let ic : Types.IC = actor ("aaaaa-aa");
 
-    let host : Text = "api.github.com";
-    let url = "https://" # host # "/users/" # username;
+    let host : Text = "api.openaq.org";
+    let url = "https://" # host # "/v2/latest?city=" # city;
 
     let request_headers = [
         { name = "Host"; value = host # ":443" },
-        { name = "User-Agent"; value = "github_user_canister" },
-        { name = "Accept"; value = "application/vnd.github.v3+json" }
+        { name = "User-Agent"; value = "air_quality_canister" },
+        { name = "Accept"; value = "application/json" }
     ];
 
     let transform_context : Types.TransformContext = {
@@ -47,9 +47,9 @@ actor {
 
     let http_request : Types.HttpRequestArgs = {
         url = url;
-        max_response_bytes = null; //optional for request
+        max_response_bytes = null;
         headers = request_headers;
-        body = null; //optional for request
+        body = null;
         method = #get;
         transform = ?transform_context;
     };
@@ -64,7 +64,10 @@ actor {
         case (?y) { y };
     };
 
+    if (http_response.status != 200) {
+        return "Error: Unable to fetch air quality data.";
+    };
+
     decoded_text
     };
-    
 }

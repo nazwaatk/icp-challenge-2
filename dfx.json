@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "icp-challenge-2-backend": {
+      "main": "src/icp-challenge-2-backend/main.mo",
+      "type": "motoko"
+    },
+    "icp-challenge-2-frontend": {
+      "dependencies": [
+        "icp-challenge-2-backend"
+      ],
+      "source": [
+        "src/icp-challenge-2-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "icp-challenge-2-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
